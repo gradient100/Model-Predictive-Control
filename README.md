@@ -9,14 +9,14 @@ The model state consists of position coordinates (x,y), velocity (v), heading (p
 
 The update equations for the model are : 
 
-'''
+~~~~
 x_[t+1] = x[t] + v[t] * cos(psi[t]) * dt
 y_[t+1] = y[t] + v[t] * sin(psi[t]) * dt
 psi_[t+1] = psi[t] + v[t] / Lf * delta[t] * dt
 v_[t+1] = v[t] + a[t-1] * dt
 cte[t+1] = f(x[t]) - y[t] + v[t] * sin(epsi[t]) * dt
 epsi[t+1] = psi[t] - psides[t] + v[t] * delta[t-1] / Lf * dt
-'''
+~~~~
 
 ---
 
