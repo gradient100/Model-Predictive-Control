@@ -125,7 +125,7 @@ int main() {
 
            // Center of gravity needed related to psi and epsi
           const double Lf = 2.67;
-          const double dt = 0.1;
+          const double dt = 0.10;
           
           // Predict state after latency
           // x, y and psi are all zero after transformation above
@@ -135,6 +135,7 @@ int main() {
           double pred_v = v + a * dt;
           double pred_cte = cte + v * sin(epsi) * dt;
           double pred_epsi = epsi + v * -delta / Lf * dt;
+
 
           Eigen::VectorXd state(6);
           //state << 0, 0, 0, v, cte, epsi;
