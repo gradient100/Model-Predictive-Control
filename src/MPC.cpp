@@ -23,7 +23,7 @@ const double Lf = 2.67;
 
 // Both the reference cross track and orientation errors are 0.
 
-double ref_v = 80;
+double ref_v = 80*.45; // 80 mph in m/s
 
 // The solver takes all the state variables and actuator
 // variables in a singular vector. Thus, we should to establish
@@ -74,25 +74,45 @@ class FG_eval {
 //       fg[0] += 100*CppAD::pow(vars[delta_start + t + 1] - vars[delta_start + t], 2);
 //       fg[0] += 10*CppAD::pow(vars[a_start + t + 1] - vars[a_start + t], 2);
 //     }
+// ////////////////////
+    // // The part of the cost based on the reference state.
+    // for (int t = 0; t < N; t++) {
+    //   fg[0] += 10*CppAD::pow(vars[cte_start + t], 2);
+    //   fg[0] += 10*CppAD::pow(vars[epsi_start + t], 2);
+    //   fg[0] += CppAD::pow(vars[v_start + t] - ref_v, 2);
+    // }
 
+    // // Minimize the use of actuators.
+    // for (int t = 0; t < N - 1; t++) {
+    //   fg[0] += 10*CppAD::pow(vars[delta_start + t], 2);
+    //   fg[0] += CppAD::pow(vars[a_start + t], 2);
+    //   fg[0] += 10*CppAD::pow(vars[delta_start + t] * vars[v_start+t], 2);
+
+    // }
+
+    // // Minimize the value gap between sequential actuations.
+    // for (int t = 0; t < N - 2; t++) {
+    //   fg[0] += 10*CppAD::pow(vars[delta_start + t + 1] - vars[delta_start + t], 2);
+    //   fg[0] += CppAD::pow(vars[a_start + t + 1] - vars[a_start + t], 2);
+    // }
     // The part of the cost based on the reference state.
     for (int t = 0; t < N; t++) {
-      fg[0] += 10*CppAD::pow(vars[cte_start + t], 2);
-      fg[0] += 10*CppAD::pow(vars[epsi_start + t], 2);
+      fg[0] += 4*CppAD::pow(vars[cte_start + t], 2);
+      fg[0] += 1200*CppAD::pow(vars[epsi_start + t], 2);
       fg[0] += CppAD::pow(vars[v_start + t] - ref_v, 2);
     }
 
     // Minimize the use of actuators.
     for (int t = 0; t < N - 1; t++) {
-      fg[0] += 10*CppAD::pow(vars[delta_start + t], 2);
+      fg[0] += CppAD::pow(vars[delta_start + t], 2);
       fg[0] += CppAD::pow(vars[a_start + t], 2);
-      fg[0] += 10*CppAD::pow(vars[delta_start + t] * vars[v_start+t], 2);
+      fg[0] += 3*CppAD::pow(vars[delta_start + t] * vars[v_start+t], 2);
 
     }
 
     // Minimize the value gap between sequential actuations.
     for (int t = 0; t < N - 2; t++) {
-      fg[0] += 10*CppAD::pow(vars[delta_start + t + 1] - vars[delta_start + t], 2);
+      fg[0] += 100*CppAD::pow(vars[delta_start + t + 1] - vars[delta_start + t], 2);
       fg[0] += CppAD::pow(vars[a_start + t + 1] - vars[a_start + t], 2);
     }
 
