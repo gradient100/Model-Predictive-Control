@@ -1,7 +1,8 @@
-# CarND-Controls-MPC
+# Model Predictive Control
+
 Vinh Nghiem
 
-Self-Driving Car Engineer Nanodegree Program
+Self-Driving Car Engineer Program
 
 ## Implementation
 
